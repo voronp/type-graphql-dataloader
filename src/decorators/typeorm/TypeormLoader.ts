@@ -1,4 +1,4 @@
-import type { ObjectType } from "typeorm";
+import type { ObjectLiteral, ObjectType } from "typeorm";
 import { ExplicitLoaderImpl } from "./ExplicitLoaderImpl";
 import { ImplicitLoaderImpl } from "./ImplicitLoaderImpl";
 
@@ -21,7 +21,7 @@ export function TypeormLoader<V>(
   option?: TypeormLoaderOption
 ): PropertyDecorator;
 
-export function TypeormLoader<V>(
+export function TypeormLoader<V extends ObjectLiteral>(
   typeFuncOrKeyFunc?: ((type?: void) => ObjectType<V>) | KeyFunc,
   keyFuncOrOption?: KeyFunc | TypeormLoaderOption,
   option?: TypeormLoaderOption
