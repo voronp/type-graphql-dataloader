@@ -49,6 +49,7 @@
     "express": "^4.17.1",
     "graphql": "^16.6.0",
     "graphql-request": "^3.6.1",
+    "graphql-scalars": "^1.23.0",
     "jest": "^26.5.3",
     "rimraf": "^3.0.2",
     "sqlite3": "^5.0.2",
