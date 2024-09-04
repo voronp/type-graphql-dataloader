@@ -1,14 +1,14 @@
 {
   "name": "type-graphql-dataloader",
   "description": "A utility to use DataLoader with TypeGraphQL without fuss",
-  "version": "0.5.1",
+  "version": "0.5.5",
   "author": {
-    "name": "Kazuaki Tanida",
-    "url": "https://github.com/slaypni"
+    "name": "Pavel Voronov",
+    "url": "https://github.com/voronp"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/slaypni/type-graphql-dataloader.git"
+    "url": "https://github.com/voronp/type-graphql-dataloader.git"
   },
   "keywords": [
     "typescript",
@@ -18,12 +18,13 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/slaypni/type-graphql-dataloader/issues"
+    "url": "https://github.com/voronp/type-graphql-dataloader/issues"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "prepack": "tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
     "dev:typeorm": "ts-node-dev -r tsconfig-paths/register examples/typeorm/index.ts",
     "test": "jest",
