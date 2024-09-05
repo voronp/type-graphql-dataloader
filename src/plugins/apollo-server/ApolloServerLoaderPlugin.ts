@@ -6,11 +6,11 @@ import type {
   GraphQLRequestContextWillSendResponse,
 } from "@apollo/server";
 import { Container } from "typedi";
-import type { Connection } from "typeorm";
+import type { DataSource } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 
 interface ApolloServerLoaderPluginOption {
-  typeormGetConnection?: () => Connection;
+  typeormGetConnection?: () => DataSource;
 }
 
 const getContext = (

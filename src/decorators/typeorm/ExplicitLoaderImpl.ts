@@ -3,7 +3,7 @@ import DataLoader from "dataloader";
 import { Dictionary, groupBy, keyBy } from "lodash";
 import { UseMiddleware } from "type-graphql";
 import Container from "typedi";
-import type { Connection, ObjectLiteral } from "typeorm";
+import type { DataSource, ObjectLiteral } from "typeorm";
 import type { ColumnMetadata } from "typeorm/metadata/ColumnMetadata";
 import type { RelationMetadata } from "typeorm/metadata/RelationMetadata";
 import { TypeormLoaderOption } from "./TypeormLoader";
@@ -61,7 +61,7 @@ async function handler<V extends ObjectLiteral>(
   { requestId, typeormGetConnection }: TgdContext,
   relation: RelationMetadata,
   columns: ColumnMetadata[],
-  newDataloader: (connection: Connection) => DataLoader<any, V>,
+  newDataloader: (connection: DataSource) => DataLoader<any, V>,
   callback: (
     dataloader: DataLoader<any, V>,
     columns: ColumnMetadata[]
@@ -156,7 +156,7 @@ async function handleOneToOneNotOwnerWithSelfKey<V extends ObjectLiteral>(
 }
 function directLoader<V extends ObjectLiteral>(
   relation: RelationMetadata,
-  connection: Connection,
+  connection: DataSource,
   grouper: string | ((entity: V) => any)
 ) {
   return async (ids: readonly any[]) => {
@@ -172,7 +172,7 @@ function directLoader<V extends ObjectLiteral>(
 }
 
 class ToManyDataloader<V extends ObjectLiteral> extends DataLoader<any, V> {
-  constructor(relation: RelationMetadata, connection: Connection) {
+  constructor(relation: RelationMetadata, connection: DataSource) {
     super(
       directLoader(relation, connection, (entity) =>
         relation.inverseEntityMetadata.primaryColumns[0].getEntityValue(entity)
@@ -182,7 +182,7 @@ class ToManyDataloader<V extends ObjectLiteral> extends DataLoader<any, V> {
 }
 
 class ToOneDataloader<V extends ObjectLiteral> extends DataLoader<any, V> {
-  constructor(relation: RelationMetadata, connection: Connection) {
+  constructor(relation: RelationMetadata, connection: DataSource) {
     super(
       directLoader(
         relation,
@@ -196,7 +196,7 @@ class ToOneDataloader<V extends ObjectLiteral> extends DataLoader<any, V> {
 class SelfKeyDataloader<V extends ObjectLiteral> extends DataLoader<any, V[]> {
   constructor(
     relation: RelationMetadata,
-    connection: Connection,
+    connection: DataSource,
     selfKeyFunc: (root: any) => any
   ) {
     super(async (ids) => {

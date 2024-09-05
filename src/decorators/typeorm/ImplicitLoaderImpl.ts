@@ -2,7 +2,7 @@ import type { TgdContext } from "#/types/TgdContext";
 import DataLoader from "dataloader";
 import { UseMiddleware } from "type-graphql";
 import Container from "typedi";
-import type { Connection, ObjectLiteral } from "typeorm";
+import type { DataSource, ObjectLiteral } from "typeorm";
 import type { ColumnMetadata } from "typeorm/metadata/ColumnMetadata";
 import type { RelationMetadata } from "typeorm/metadata/RelationMetadata";
 
@@ -48,8 +48,8 @@ async function handler<V>(
   { requestId, typeormGetConnection }: TgdContext,
   relation: RelationMetadata,
   dataloaderCls:
-    | (new (r: RelationMetadata, c: Connection) => DataLoader<string, V | null>)
-    | (new (r: RelationMetadata, c: Connection) => DataLoader<string, V[]>)
+    | (new (r: RelationMetadata, c: DataSource) => DataLoader<string, V | null>)
+    | (new (r: RelationMetadata, c: DataSource) => DataLoader<string, V[]>)
 ) {
   if (typeormGetConnection == null) {
     throw Error("Connection is not available");
@@ -73,7 +73,7 @@ async function handler<V>(
 }
 
 class ToOneOwnerDataloader<V extends ObjectLiteral> extends DataLoader<string, V | null> {
-  constructor(relation: RelationMetadata, connection: Connection) {
+  constructor(relation: RelationMetadata, connection: DataSource) {
     super(async (pks) => {
       const relationName = relation.inverseRelation!.propertyName;
       const columns = relation.entityMetadata.primaryColumns;
@@ -97,7 +97,7 @@ class ToOneOwnerDataloader<V extends ObjectLiteral> extends DataLoader<string, V
 }
 
 class ToOneNotOwnerDataloader<V extends ObjectLiteral> extends DataLoader<string, V | null> {
-  constructor(relation: RelationMetadata, connection: Connection) {
+  constructor(relation: RelationMetadata, connection: DataSource) {
     super(async (pks) => {
       const inverseRelation = relation.inverseRelation!;
       const relationName = relation.propertyName;
@@ -124,7 +124,7 @@ class ToOneNotOwnerDataloader<V extends ObjectLiteral> extends DataLoader<string
 }
 
 class OneToManyDataloader<V extends ObjectLiteral> extends DataLoader<string, V[]> {
-  constructor(relation: RelationMetadata, connection: Connection) {
+  constructor(relation: RelationMetadata, connection: DataSource) {
     super(async (pks) => {
       const inverseRelation = relation.inverseRelation!;
       const columns = inverseRelation.joinColumns;
@@ -150,7 +150,7 @@ class OneToManyDataloader<V extends ObjectLiteral> extends DataLoader<string, V[
 }
 
 class ManyToManyDataloader<V  extends ObjectLiteral> extends DataLoader<string, V[]> {
-  constructor(relation: RelationMetadata, connection: Connection) {
+  constructor(relation: RelationMetadata, connection: DataSource) {
     super(async (pks) => {
       const inversePropName = relation.inverseRelation!.propertyName;
       const { ownerColumns, inverseColumns } = relation.junctionEntityMetadata!;
@@ -180,7 +180,7 @@ class ManyToManyDataloader<V  extends ObjectLiteral> extends DataLoader<string, 
 
 async function findEntities<V extends ObjectLiteral>(
   relation: RelationMetadata,
-  connection: Connection,
+  connection: DataSource,
   stringifiedPrimaryKeys: readonly string[],
   relationName: string,
   columnMetas: ColumnMetadata[]
