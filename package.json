@@ -36,7 +36,7 @@
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.8.0",
-    "typeorm": "^0.3.17",
+    "typeorm": "0.3.17",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
