@@ -36,6 +36,7 @@
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.8.0",
+    "typeorm": "^0.3.17",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
@@ -57,7 +58,6 @@
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.11.0",
     "type-graphql": "^2.0.0-rc.2",
-    "typeorm": "^0.3.17",
     "typescript": "~5.0.0"
   }
 }
