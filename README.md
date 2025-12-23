@@ -4,7 +4,7 @@ TypeGraphQL-DataLoader is an utility to use DataLoader with TypeGraphQL without 
 
 ## Install
 
-Because the upstream package is now abandonware, the package can be pulled directly from github using the following npm command:
+Because the upstream package is now abandon-ware, the package can be pulled directly from github using the following npm command:
 
 ```
 npm install DillonSadofsky/type-graphql-dataloader
@@ -84,7 +84,7 @@ export class User {
 }
 ```
 
-`@TypeormLoader` does not need arguments since `v0.4.0`. In order to pass foeign key explicitly, arguments are still supported. Take a look at previous [README](https://github.com/slaypni/type-graphql-dataloader/blob/v0.3.7/README.md#with-typeorm) for details.
+`@TypeormLoader` does not need arguments since `v0.4.0`. In order to pass foreign key explicitly, arguments are still supported. Take a look at previous [README](https://github.com/slaypni/type-graphql-dataloader/blob/v0.3.7/README.md#with-typeorm) for details.
 
 ### With Custom DataLoader
 
