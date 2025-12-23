@@ -10,9 +10,9 @@ npm install type-graphql-dataloader
 
 The latest build is tested with the following packages:
 
-- type-graphql 1.1.1
-- apollo-server-express 3.4.0
-- (optional) typeorm 0.2.38
+- type-graphql 2
+- @apollo/server 5
+- (optional) typeorm 0.3
 
 ## Getting Started
 
