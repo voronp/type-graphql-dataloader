@@ -1,6 +1,6 @@
 import { ApolloServerLoaderPlugin } from "#/.";
 import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
+import { expressMiddleware } from "@as-integrations/express5";
 import bodyParser from "body-parser";
 import express from "express";
 import http from "http";
