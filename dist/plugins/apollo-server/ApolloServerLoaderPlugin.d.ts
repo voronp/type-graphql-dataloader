@@ -1,7 +1,7 @@
-import type { ApolloServerPlugin } from "@apollo/server";
+import type { ApolloServerPlugin, BaseContext } from "@apollo/server";
 import type { DataSource } from "typeorm";
 interface ApolloServerLoaderPluginOption {
     typeormGetConnection?: () => DataSource;
 }
-declare const ApolloServerLoaderPlugin: (option?: ApolloServerLoaderPluginOption) => ApolloServerPlugin;
-export { ApolloServerLoaderPlugin };
+export declare const ApolloServerLoaderPlugin: <TContext extends BaseContext = BaseContext>(option?: ApolloServerLoaderPluginOption) => ApolloServerPlugin<TContext>;
+export {};
