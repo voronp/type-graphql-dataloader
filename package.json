@@ -1,5 +1,5 @@
 {
-  "name": "DillonSadofsky/type-graphql-dataloader",
+  "name": "type-graphql-dataloader",
   "description": "A utility to use DataLoader with TypeGraphQL without fuss",
   "version": "0.5.6",
   "author": {
