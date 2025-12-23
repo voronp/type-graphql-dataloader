@@ -1,14 +1,14 @@
 {
-  "name": "type-graphql-dataloader",
+  "name": "DillonSadofsky/type-graphql-dataloader",
   "description": "A utility to use DataLoader with TypeGraphQL without fuss",
   "version": "0.5.6",
   "author": {
-    "name": "Pavel Voronov",
-    "url": "https://github.com/voronp"
+    "name": "Dillon Sadofsky",
+    "url": "https://github.com/DillonSadofsky"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/voronp/type-graphql-dataloader.git"
+    "url": "https://github.com/DillonSadofsky/type-graphql-dataloader.git"
   },
   "keywords": [
     "typescript",
@@ -18,7 +18,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/voronp/type-graphql-dataloader/issues"
+    "url": "https://github.com/DillonSadofsky/type-graphql-dataloader/issues"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
