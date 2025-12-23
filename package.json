@@ -52,7 +52,7 @@
     "graphql-request": "^7.4.0",
     "graphql-scalars": "^1.25.0",
     "jest": "^30.2.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.1.2",
     "sqlite3": "^5.1.7",
     "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
