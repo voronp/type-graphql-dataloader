@@ -40,7 +40,9 @@ export const ApolloServerLoaderPlugin = function <
         });
       },
       async willSendResponse(requestContext) {
-        Container.reset(getContext(requestContext)._tgdContext.requestId);
+        Container.reset(
+          getContext<TContext>(requestContext)._tgdContext.requestId
+        );
       },
     }),
   };
