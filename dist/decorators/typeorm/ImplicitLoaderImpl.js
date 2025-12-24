@@ -1,15 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ImplicitLoaderImpl = ImplicitLoaderImpl;
-const dataloader_1 = __importDefault(require("dataloader"));
-const type_graphql_1 = require("type-graphql");
-const typedi_1 = __importDefault(require("typedi"));
-function ImplicitLoaderImpl() {
+import DataLoader from "dataloader";
+import { UseMiddleware } from "type-graphql";
+import { Container } from "typedi";
+export function ImplicitLoaderImpl() {
     return (target, propertyKey) => {
-        (0, type_graphql_1.UseMiddleware)(async ({ root, context }, next) => {
+        UseMiddleware(async ({ root, context }, next) => {
             const tgdContext = context._tgdContext;
             if (tgdContext.typeormGetConnection == null) {
                 throw Error("typeormGetConnection is not set");
@@ -45,7 +39,7 @@ async function handler(root, { requestId, typeormGetConnection }, relation, data
         throw Error("Connection is not available");
     }
     const serviceId = `tgd-typeorm#${relation.entityMetadata.tableName}#${relation.propertyName}`;
-    const container = typedi_1.default.of(requestId);
+    const container = Container.of(requestId);
     if (!container.has(serviceId)) {
         container.set(serviceId, new dataloaderCls(relation, typeormGetConnection()));
     }
@@ -54,7 +48,7 @@ async function handler(root, { requestId, typeormGetConnection }, relation, data
     const pk = columns.map((c) => c.getEntityValue(root));
     return await dataloader.load(JSON.stringify(pk));
 }
-class ToOneOwnerDataloader extends dataloader_1.default {
+class ToOneOwnerDataloader extends DataLoader {
     constructor(relation, connection) {
         super(async (pks) => {
             const relationName = relation.inverseRelation.propertyName;
@@ -66,7 +60,7 @@ class ToOneOwnerDataloader extends dataloader_1.default {
         });
     }
 }
-class ToOneNotOwnerDataloader extends dataloader_1.default {
+class ToOneNotOwnerDataloader extends DataLoader {
     constructor(relation, connection) {
         super(async (pks) => {
             const inverseRelation = relation.inverseRelation;
@@ -79,7 +73,7 @@ class ToOneNotOwnerDataloader extends dataloader_1.default {
         });
     }
 }
-class OneToManyDataloader extends dataloader_1.default {
+class OneToManyDataloader extends DataLoader {
     constructor(relation, connection) {
         super(async (pks) => {
             const inverseRelation = relation.inverseRelation;
@@ -91,7 +85,7 @@ class OneToManyDataloader extends dataloader_1.default {
         });
     }
 }
-class ManyToManyDataloader extends dataloader_1.default {
+class ManyToManyDataloader extends DataLoader {
     constructor(relation, connection) {
         super(async (pks) => {
             const inversePropName = relation.inverseRelation.propertyName;

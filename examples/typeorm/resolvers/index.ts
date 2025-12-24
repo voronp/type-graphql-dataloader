@@ -1,8 +1,8 @@
 import { NonEmptyArray } from "type-graphql";
-import CertResolver from "./CertResolver";
-import CompanyResolver from "./CompanyResolver";
-import DeskResolver from "./DeskResolver";
-import EmployeeResolver from "./EmployeeResolver";
+import CertResolver from "./CertResolver.js";
+import CompanyResolver from "./CompanyResolver.js";
+import DeskResolver from "./DeskResolver.js";
+import EmployeeResolver from "./EmployeeResolver.js";
 
 export default [
   CompanyResolver,

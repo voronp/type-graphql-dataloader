@@ -1,8 +1,8 @@
-import type { TgdContext } from "#/types/TgdContext";
 import DataLoader from "dataloader";
 import { UseMiddleware } from "type-graphql";
 import { type MethodAndPropDecorator } from "type-graphql/build/typings/decorators/types";
-import Container from "typedi";
+import { Container } from "typedi";
+import { TgdContext } from "types/TgdContext.js";
 
 interface ResolverData {
   context: any;

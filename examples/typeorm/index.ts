@@ -1,4 +1,3 @@
-import { ApolloServerLoaderPlugin } from "#/.";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express5";
 import bodyParser from "body-parser";
@@ -9,14 +8,15 @@ import path from "path";
 import { buildSchema, NonEmptyArray } from "type-graphql";
 import { createConnection, getConnection, getRepository } from "typeorm";
 import { promisify } from "util";
-import { ApplicationSoftware } from "./entities/ApplicationSoftware";
-import { Cert } from "./entities/Cert";
-import { Chair } from "./entities/Chair";
-import { Company } from "./entities/Company";
-import { Desk } from "./entities/Desk";
-import { Employee } from "./entities/Employee";
-import { PersonalComputer } from "./entities/PersonalComputer";
-import typeormResolvers from "./resolvers";
+import { ApplicationSoftware } from "./entities/ApplicationSoftware.js";
+import { Cert } from "./entities/Cert.js";
+import { Chair } from "./entities/Chair.js";
+import { Company } from "./entities/Company.js";
+import { Desk } from "./entities/Desk.js";
+import { Employee } from "./entities/Employee.js";
+import { PersonalComputer } from "./entities/PersonalComputer.js";
+import typeormResolvers from "./resolvers.js";
+import { ApolloServerLoaderPlugin } from "index.js";
 
 export function connect(logging: boolean = false) {
   return createConnection({

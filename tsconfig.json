@@ -13,8 +13,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "baseUrl": "./src/",
-    "paths": { "#/*": ["*"] }
+    "baseUrl": "./src/"
   },
   "include": ["./src", "./examples", "./tests"]
 }

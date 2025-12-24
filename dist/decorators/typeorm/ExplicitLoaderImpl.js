@@ -1,16 +1,10 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ExplicitLoaderImpl = ExplicitLoaderImpl;
-const dataloader_1 = __importDefault(require("dataloader"));
-const lodash_1 = require("lodash");
-const type_graphql_1 = require("type-graphql");
-const typedi_1 = __importDefault(require("typedi"));
-function ExplicitLoaderImpl(keyFunc, option) {
+import DataLoader from "dataloader";
+import { groupBy, keyBy } from "lodash";
+import { UseMiddleware } from "type-graphql";
+import { Container } from "typedi";
+export function ExplicitLoaderImpl(keyFunc, option) {
     return (target, propertyKey) => {
-        (0, type_graphql_1.UseMiddleware)(async ({ root, context }, next) => {
+        UseMiddleware(async ({ root, context }, next) => {
             const tgdContext = context._tgdContext;
             if (tgdContext.typeormGetConnection == null) {
                 throw Error("typeormGetConnection is not set");
@@ -52,7 +46,7 @@ async function handler({ requestId, typeormGetConnection }, relation, columns, n
         throw Error("Loading by multiple columns as foreign key is not supported.");
     }
     const serviceId = `tgd-typeorm#${relation.entityMetadata.tableName}#${relation.propertyName}`;
-    const container = typedi_1.default.of(requestId);
+    const container = Container.of(requestId);
     if (!container.has(serviceId)) {
         container.set(serviceId, newDataloader(typeormGetConnection()));
     }
@@ -84,29 +78,29 @@ async function handleOneToOneNotOwnerWithSelfKey(selfKeyFunc, root, tgdContext, 
 }
 function directLoader(relation, connection, grouper) {
     return async (ids) => {
-        const entities = (0, lodash_1.keyBy)(await connection
+        const entities = keyBy(await connection
             .createQueryBuilder(relation.type, relation.propertyName)
             .whereInIds(ids)
             .getMany(), grouper);
         return ids.map((id) => entities[id]);
     };
 }
-class ToManyDataloader extends dataloader_1.default {
+class ToManyDataloader extends DataLoader {
     constructor(relation, connection) {
         super(directLoader(relation, connection, (entity) => relation.inverseEntityMetadata.primaryColumns[0].getEntityValue(entity)));
     }
 }
-class ToOneDataloader extends dataloader_1.default {
+class ToOneDataloader extends DataLoader {
     constructor(relation, connection) {
         super(directLoader(relation, connection, relation.inverseEntityMetadata.primaryColumns[0].propertyName));
     }
 }
-class SelfKeyDataloader extends dataloader_1.default {
+class SelfKeyDataloader extends DataLoader {
     constructor(relation, connection, selfKeyFunc) {
         super(async (ids) => {
             const columns = relation.inverseRelation.joinColumns;
             const k = `${relation.propertyName}_${columns[0].propertyName}`;
-            const entities = (0, lodash_1.groupBy)(await connection
+            const entities = groupBy(await connection
                 .createQueryBuilder(relation.type, relation.propertyName)
                 .where(`${relation.propertyName}.${columns[0].propertyPath} IN (:...${k})`)
                 .setParameter(k, ids)

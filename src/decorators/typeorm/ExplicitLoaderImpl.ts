@@ -1,12 +1,12 @@
-import type { TgdContext } from "#/types/TgdContext";
 import DataLoader from "dataloader";
 import { Dictionary, groupBy, keyBy } from "lodash";
 import { UseMiddleware } from "type-graphql";
-import Container from "typedi";
+import { Container } from "typedi";
 import type { DataSource, ObjectLiteral } from "typeorm";
-import type { ColumnMetadata } from "typeorm/metadata/ColumnMetadata";
-import type { RelationMetadata } from "typeorm/metadata/RelationMetadata";
-import { TypeormLoaderOption } from "./TypeormLoader";
+import type { ColumnMetadata } from "typeorm/metadata/ColumnMetadata.js";
+import type { RelationMetadata } from "typeorm/metadata/RelationMetadata.js";
+import { TypeormLoaderOption } from "./TypeormLoader.js";
+import { TgdContext } from "types/TgdContext.js";
 
 type KeyFunc = (root: any) => any | any[] | undefined;
 
