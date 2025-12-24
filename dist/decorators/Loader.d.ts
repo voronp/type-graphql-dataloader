@@ -1,5 +1,5 @@
 import DataLoader from "dataloader";
-import { MethodAndPropDecorator } from "type-graphql/build/typings/decorators/types";
+import { type MethodAndPropDecorator } from "type-graphql/build/typings/decorators/types";
 interface ResolverData {
     context: any;
 }
