@@ -15,8 +15,8 @@ import { Company } from "./entities/Company.js";
 import { Desk } from "./entities/Desk.js";
 import { Employee } from "./entities/Employee.js";
 import { PersonalComputer } from "./entities/PersonalComputer.js";
-import { ApolloServerLoaderPlugin } from "index.js";
-import typeormResolvers from "../../examples/typeorm/resolvers/index.js";
+import typeormResolvers from "./resolvers/index.js";
+import { ApolloServerLoaderPlugin } from "../../plugins/apollo-server/ApolloServerLoaderPlugin.js";
 
 export function connect(logging: boolean = false) {
   return createConnection({

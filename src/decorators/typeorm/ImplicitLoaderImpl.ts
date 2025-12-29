@@ -4,7 +4,7 @@ import { Container } from "typedi";
 import type { DataSource, ObjectLiteral } from "typeorm";
 import type { ColumnMetadata } from "typeorm/metadata/ColumnMetadata.js";
 import type { RelationMetadata } from "typeorm/metadata/RelationMetadata.js";
-import { TgdContext } from "types/TgdContext.js";
+import { TgdContext } from "../../types/TgdContext.js";
 
 export function ImplicitLoaderImpl<
   V extends ObjectLiteral

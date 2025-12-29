@@ -7,7 +7,7 @@ import type { DataSource, ObjectLiteral } from "typeorm";
 import type { ColumnMetadata } from "typeorm/metadata/ColumnMetadata.js";
 import type { RelationMetadata } from "typeorm/metadata/RelationMetadata.js";
 import { TypeormLoaderOption } from "./TypeormLoader.js";
-import { TgdContext } from "types/TgdContext.js";
+import { TgdContext } from "../../types/TgdContext.js";
 
 type KeyFunc = (root: any) => any | any[] | undefined;
 

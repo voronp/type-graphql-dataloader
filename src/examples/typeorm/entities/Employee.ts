@@ -1,4 +1,3 @@
-import { TypeormLoader } from "index.js";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
@@ -16,6 +15,7 @@ import { Base } from "./Base.js";
 import { Cert } from "./Cert.js";
 import { Company } from "./Company.js";
 import { Desk } from "./Desk.js";
+import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()
 @Entity()

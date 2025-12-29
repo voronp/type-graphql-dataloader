@@ -32,7 +32,7 @@
     "prepack": "yarn install && tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
     "dev:typeorm": "ts-node-dev -r tsconfig-paths/register examples/typeorm/index.ts",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.js",
     "prepublishOnly": "npm run-script clean && npm run-script build"
   },
   "dependencies": {
@@ -44,6 +44,7 @@
   "devDependencies": {
     "@apollo/server": "^5.2.0",
     "@as-integrations/express5": "^1.1.2",
+    "@jest/globals": "^30.2.0",
     "@types/body-parser": "^1.19.6",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
@@ -53,7 +54,7 @@
     "class-validator": "^0.14.3",
     "express": "^5.2.1",
     "graphql": "^16.6.0",
-    "graphql-request": "^7.4.0",
+    "graphql-request": "^6.1.0",
     "graphql-scalars": "^1.25.0",
     "jest": "^30.2.0",
     "rimraf": "^6.1.2",

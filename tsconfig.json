@@ -14,8 +14,8 @@
     "declaration": true,
     "declarationMap": true,
     "isolatedModules": true,
-    "baseUrl": "./src",
-    "rootDir": "./"
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
-  "include": ["./src", "./examples", "./tests"]
+  "include": ["./src"]
 }

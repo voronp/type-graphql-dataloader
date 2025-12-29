@@ -13,7 +13,7 @@ import { Chair } from "./Chair.js";
 import { Desk } from "./Desk.js";
 import { Employee } from "./Employee.js";
 import { PersonalComputer } from "./PersonalComputer.js";
-import { TypeormLoader } from "index.js";
+import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()
 @Entity()

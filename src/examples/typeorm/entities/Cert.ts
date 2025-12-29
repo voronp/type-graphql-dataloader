@@ -1,4 +1,3 @@
-import { TypeormLoader } from "index.js";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
@@ -10,6 +9,7 @@ import {
 import { type Lazy } from "../types/Lazy.js";
 import { Base } from "./Base.js";
 import { Employee } from "./Employee.js";
+import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()
 @Entity()

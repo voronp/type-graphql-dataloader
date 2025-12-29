@@ -1,3 +1,5 @@
+import { jest } from "@jest/globals";
+
 import { gql, request } from "graphql-request";
 import { getConnection, getRepository, ObjectLiteral } from "typeorm";
 import { connect, listen } from "../examples/typeorm/index.js";
@@ -262,7 +264,7 @@ test("verify query companies", async () => {
       }
     }
   `;
-  const data = await request(endpoint, query);
+  const data = (await request(endpoint, query)) as { companies: Company[] };
   await verify(data.companies, await getRepository(Company).find());
 });
 
@@ -295,7 +297,7 @@ test("verify query employees", async () => {
       }
     }
   `;
-  const data = await request(endpoint, query);
+  const data = (await request(endpoint, query)) as { employees: Employee[] };
   await verify(data.employees, await getRepository(Employee).find());
 });
 
@@ -312,7 +314,7 @@ test("verify query certs", async () => {
       }
     }
   `;
-  const data = await request(endpoint, query);
+  const data = (await request(endpoint, query)) as { certs: Cert[] };
   await verify(data.certs, await getRepository(Cert).find());
 });
 
@@ -373,6 +375,6 @@ test("verify query desks", async () => {
       }
     }
   `;
-  const data = await request(endpoint, query);
+  const data = (await request(endpoint, query)) as { desks: Desk[] };
   await verify(data.desks, await getRepository(Desk).find());
 });
