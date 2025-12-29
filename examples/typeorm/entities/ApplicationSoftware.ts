@@ -1,11 +1,10 @@
-import { TypeormLoader } from "#/index";
+import { TypeormLoader } from "index.js";
 import { Field, ObjectType } from "type-graphql";
 import { Entity, ManyToMany, ManyToOne, PrimaryColumn } from "typeorm";
-import { Lazy } from "../types/Lazy";
-import { Base } from "./Base";
-import { Company } from "./Company";
-import { Desk } from "./Desk";
-import { PersonalComputer } from "./PersonalComputer";
+import { Lazy } from "../types/Lazy.js";
+import { Base } from "./Base.js";
+import { Company } from "./Company.js";
+import { PersonalComputer } from "./PersonalComputer.js";
 
 @ObjectType()
 @Entity()

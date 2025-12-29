@@ -1,14 +1,14 @@
 import { gql, request } from "graphql-request";
 import { getConnection, getRepository, ObjectLiteral } from "typeorm";
-import { connect, listen } from "../examples/typeorm";
-import { ApplicationSoftware } from "../examples/typeorm/entities/ApplicationSoftware";
-import { Cert } from "../examples/typeorm/entities/Cert";
-import { Chair } from "../examples/typeorm/entities/Chair";
-import { Company } from "../examples/typeorm/entities/Company";
-import { Desk } from "../examples/typeorm/entities/Desk";
-import { Employee } from "../examples/typeorm/entities/Employee";
-import { PersonalComputer } from "../examples/typeorm/entities/PersonalComputer";
-import typeormResolvers from "../examples/typeorm/resolvers";
+import { connect, listen } from "../examples/typeorm/index.js";
+import { ApplicationSoftware } from "../examples/typeorm/entities/ApplicationSoftware.js";
+import { Cert } from "../examples/typeorm/entities/Cert.js";
+import { Chair } from "../examples/typeorm/entities/Chair.js";
+import { Company } from "../examples/typeorm/entities/Company.js";
+import { Desk } from "../examples/typeorm/entities/Desk.js";
+import { Employee } from "../examples/typeorm/entities/Employee.js";
+import { PersonalComputer } from "../examples/typeorm/entities/PersonalComputer.js";
+import typeormResolvers from "../examples/typeorm/resolvers/index.js";
 
 let close: () => Promise<void>;
 let endpoint: string;
@@ -122,7 +122,7 @@ type typename =
   | "ApplicationSoftware"
   | "PersonalComputer";
 
-const coalesceTypenames = (objects: ObjectLiteral[]): typename => {
+const coalesceTypeNames = (objects: ObjectLiteral[]): typename => {
   const typename = objects
     .map((a) => a.__typename)
     .reduce((a, b) => (a === b ? a : null));
@@ -147,7 +147,7 @@ const verify = async <Entity extends ObjectLiteral>(
     if (objects.length === 0) {
       return;
     }
-    coalesceTypenames(objects);
+    coalesceTypeNames(objects);
 
     await Promise.all(
       objects.map((object) => {
