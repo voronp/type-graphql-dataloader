@@ -14,7 +14,7 @@ export default class CompanyResolver {
   }
 
   @FieldResolver()
-  @Loader<string, Chair[]>(async (ids: any[]) => {
+  @Loader<string, Chair[]>(async (ids: readonly any[]) => {
     const chairs = await getRepository(Chair).find({
       where: { company: { id: In([...ids]) } },
     });
