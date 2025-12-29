@@ -1,5 +1,5 @@
 import DataLoader from "dataloader";
-import { groupBy, keyBy } from "lodash";
+import { groupBy, keyBy } from "lodash-es";
 import { UseMiddleware } from "type-graphql";
 import { Container } from "typedi";
 export function ExplicitLoaderImpl(keyFunc, option) {

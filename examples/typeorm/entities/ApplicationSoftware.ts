@@ -1,7 +1,7 @@
 import { TypeormLoader } from "index.js";
 import { Field, ObjectType } from "type-graphql";
 import { Entity, ManyToMany, ManyToOne, PrimaryColumn } from "typeorm";
-import { Lazy } from "../types/Lazy.js";
+import { type Lazy } from "../types/Lazy.js";
 import { Base } from "./Base.js";
 import { Company } from "./Company.js";
 import { PersonalComputer } from "./PersonalComputer.js";

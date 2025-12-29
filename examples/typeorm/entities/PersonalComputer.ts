@@ -10,7 +10,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Lazy } from "../types/Lazy.js";
+import type { Lazy } from "../types/Lazy.js";
 import { Base } from "./Base.js";
 import { Company } from "./Company.js";
 import { Desk } from "./Desk.js";

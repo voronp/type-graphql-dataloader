@@ -13,7 +13,9 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "baseUrl": "./src/"
+    "isolatedModules": true,
+    "baseUrl": "./src",
+    "rootDir": "./"
   },
   "include": ["./src", "./examples", "./tests"]
 }

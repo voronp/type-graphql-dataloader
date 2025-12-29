@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from "typeorm";
-import { Lazy } from "../types/Lazy.js";
+import type { Lazy } from "../types/Lazy.js";
 import { Base } from "./Base.js";
 import { Chair } from "./Chair.js";
 import { Company } from "./Company.js";
