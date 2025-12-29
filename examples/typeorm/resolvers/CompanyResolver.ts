@@ -1,6 +1,6 @@
 import { Loader } from "index.js";
 import DataLoader from "dataloader";
-import { groupBy } from "lodash";
+import { groupBy } from "lodash-es";
 import { FieldResolver, Query, Resolver, Root } from "type-graphql";
 import { getRepository, In } from "typeorm";
 import { Chair } from "../entities/Chair.js";

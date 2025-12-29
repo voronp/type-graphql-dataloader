@@ -1,5 +1,6 @@
 import DataLoader from "dataloader";
-import { Dictionary, groupBy, keyBy } from "lodash";
+import { groupBy, keyBy } from "lodash-es";
+import type { Dictionary } from "lodash";
 import { UseMiddleware } from "type-graphql";
 import { Container } from "typedi";
 import type { DataSource, ObjectLiteral } from "typeorm";
