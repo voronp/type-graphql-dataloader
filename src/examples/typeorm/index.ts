@@ -5,7 +5,7 @@ import express from "express";
 import http from "http";
 import { AddressInfo } from "net";
 import { buildSchema, NonEmptyArray } from "type-graphql";
-import { DataSource } from "typeorm";
+import { DataSource, getConnectionManager } from "typeorm";
 import { promisify } from "util";
 import { ApplicationSoftware } from "./entities/ApplicationSoftware.js";
 import { Cert } from "./entities/Cert.js";
@@ -16,9 +16,13 @@ import { Employee } from "./entities/Employee.js";
 import { PersonalComputer } from "./entities/PersonalComputer.js";
 import typeormResolvers from "./resolvers/index.js";
 import { ApolloServerLoaderPlugin } from "../../plugins/apollo-server/ApolloServerLoaderPlugin.js";
-import { readdir } from "fs/promises";
+//import { readdir } from "fs/promises";
 
 let globalDataSource: DataSource;
+
+export function getGlobalDataSource() {
+  return globalDataSource;
+}
 
 export async function connect(logging: boolean = false) {
   //const files = await readdir("./dist/examples/typeorm/entities");
@@ -33,88 +37,106 @@ export async function connect(logging: boolean = false) {
   });
 
   await globalDataSource.initialize();
+  // Ensure legacy globals like getRepository() can find the connection
+  try {
+    getConnectionManager().connections.push(globalDataSource as any);
+  } catch (e) {
+    // ignore if this fails for any reason
+  }
+
   return globalDataSource;
 }
 
 export async function seed() {
+  const companyValues = [
+    { name: "company1" },
+    { name: "company2" },
+    { name: "company3" },
+  ];
+
   const [company1, company2, company3] = await Promise.all(
-    [{ name: "company1" }, { name: "company2" }, { name: "company3" }].map(
-      (v) => globalDataSource.getRepository(Company).save(new Company(v))
-    )
+    companyValues.map((v) => globalDataSource.getRepository(Company).save(v))
   );
 
+  const deskValues = [
+    { name: "desk1", company: company1 },
+    { name: "desk2", company: company1 },
+    { name: "desk3", company: company1 },
+    { name: "desk4", company: company2 },
+  ];
   const [desk1, desk2, desk3, desk4] = await Promise.all(
-    [
-      { name: "desk1", company: company1 },
-      { name: "desk2", company: company1 },
-      { name: "desk3", company: company1 },
-      { name: "desk4", company: company2 },
-    ].map((v) => globalDataSource.getRepository(Desk).save(new Desk(v)))
+    deskValues.map((v) => globalDataSource.getRepository(Desk).save(v))
   );
 
+  const chairValues = [
+    { name: "chair1", company: company1, desk: desk1 },
+    { name: "chair2", company: company2 },
+  ];
   const [chair1, chair2] = await Promise.all(
-    [
-      { name: "chair1", company: company1, desk: desk1 },
-      { name: "chair2", company: company2 },
-    ].map((v) => globalDataSource.getRepository(Chair).save(new Chair(v)))
+    chairValues.map((v) => globalDataSource.getRepository(Chair).save(v))
   );
 
+  const certValues = [{ name: "cert1" }, { name: "cert2" }, { name: "cert3" }];
   const [cert1, cert2, cert3] = await Promise.all(
-    [{ name: "cert1" }, { name: "cert2" }, { name: "cert3" }].map((v) =>
-      globalDataSource.getRepository(Cert).save(new Cert(v))
-    )
+    certValues.map((v) => globalDataSource.getRepository(Cert).save(v))
   );
 
+  const employeeValues: Partial<Employee>[] = [
+    {
+      name: "employee1",
+      companyId: company1.id,
+      desk: desk1,
+      certs: [cert1, cert2],
+    },
+    {
+      name: "employee2",
+      companyId: company1.id,
+      desk: desk2,
+      certs: [cert1],
+    },
+    { name: "employee3", companyId: company1.id, certs: [] },
+  ];
   const [employee1, employee2, employee3] = await Promise.all(
-    [
-      {
-        name: "employee1",
-        company: company1,
-        desk: desk1,
-        certs: [cert1, cert2],
-      },
-      { name: "employee2", company: company1, desk: desk2, certs: [cert1] },
-      { name: "employee3", company: company1, certs: [] },
-    ].map((v) => globalDataSource.getRepository(Employee).save(new Employee(v)))
+    employeeValues.map(async (v) => {
+      return await globalDataSource.getRepository(Employee).save(v);
+    })
   );
 
+  const appValues = [
+    { name: "app1", majorVersion: 1, minorVersion: 0, publishedBy: company1 },
+    { name: "app2", majorVersion: 2, minorVersion: 0, publishedBy: company1 },
+    { name: "app3", majorVersion: 3, minorVersion: 1, publishedBy: company3 },
+  ];
   const [app1, app2, app3] = await Promise.all(
-    [
-      { name: "app1", majorVersion: 1, minorVersion: 0, publishedBy: company1 },
-      { name: "app2", majorVersion: 2, minorVersion: 0, publishedBy: company1 },
-      { name: "app3", majorVersion: 3, minorVersion: 1, publishedBy: company3 },
-    ].map((v) =>
-      globalDataSource
-        .getRepository(ApplicationSoftware)
-        .save(new ApplicationSoftware(v))
+    appValues.map((v) =>
+      globalDataSource.getRepository(ApplicationSoftware).save(v)
     )
   );
 
+  const pcValues = [
+    {
+      name: "pc1",
+      propertyOf: company1,
+      placedAt: desk1,
+      installedApps: [app1],
+    },
+    {
+      name: "pc2",
+      propertyOf: company1,
+      placedAt: desk2,
+      installedApps: [],
+    },
+    { name: "pc3", propertyOf: company1, installedApps: [app1, app2] },
+    {
+      name: "pc4",
+      propertyOf: company2,
+      placedAt: desk4,
+      installedApps: [app2, app3],
+    },
+  ];
   const [pc1, pc2, pc3, pc4] = await Promise.all(
-    [
-      {
-        name: "pc1",
-        propertyOf: company1,
-        placedAt: desk1,
-        installedApps: [app1],
-      },
-      {
-        name: "pc2",
-        propertyOf: company1,
-        placedAt: desk2,
-        installedApps: [],
-      },
-      { name: "pc3", propertyOf: company1, installedApps: [app1, app2] },
-      {
-        name: "pc4",
-        propertyOf: company2,
-        placedAt: desk4,
-        installedApps: [app2, app3],
-      },
-    ].map((v) =>
-      globalDataSource
-        .getRepository(PersonalComputer)
-        .save(new PersonalComputer(v))
+    pcValues.map((v) =>
+      globalDataSource.getRepository(PersonalComputer).save(v)
     )
   );
 }
@@ -156,9 +178,13 @@ export async function listen(
   };
 }
 
-(async () => {
+export async function initializeServer() {
   await connect();
   await seed();
   const { port } = await listen(3000, typeormResolvers);
   console.log(`Listening on port ${port}`);
-})();
+}
+
+/*if (process.env.NODE_ENV !== "test") {
+  initializeServer();
+}*/
