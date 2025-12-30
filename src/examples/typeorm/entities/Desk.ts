@@ -22,7 +22,7 @@ export class Desk extends Base<Desk> {
   @Column({ nullable: true })
   name?: string;
 
-  @Field((type) => Company)
+  @Field((type) => Company, { nullable: true })
   @ManyToOne((type) => Company, (company) => company.desks, { lazy: true })
   company: Lazy<Company>;
 

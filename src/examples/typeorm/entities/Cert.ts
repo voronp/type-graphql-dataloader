@@ -15,7 +15,7 @@ import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 export class Cert extends Base<Cert> {
   @Field((type) => ID)
   @PrimaryGeneratedColumn()
-  cid: number;
+  id: number;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -23,10 +23,6 @@ export class Cert extends Base<Cert> {
 
   @Field((type) => [Employee])
   @ManyToMany((type) => Employee, (employee) => employee.certs, { lazy: true })
-  @TypeormLoader((cert: Cert) => cert.employeeIds)
+  @TypeormLoader()
   employees: Lazy<Employee[]>;
-
-  @Field((type) => [String])
-  @RelationId((cert: Cert) => cert.employees)
-  employeeIds: string[];
 }

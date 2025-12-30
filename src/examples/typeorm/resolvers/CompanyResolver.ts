@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
 import { groupBy } from "lodash-es";
 import { FieldResolver, Query, Resolver, Root } from "type-graphql";
-import { getRepository, In } from "typeorm";
+import { In } from "typeorm";
 import { Chair, Company } from "../entities/index.js";
 import { Loader } from "../../../decorators/Loader.js";
 
@@ -9,14 +9,18 @@ import { Loader } from "../../../decorators/Loader.js";
 export default class CompanyResolver {
   @Query((returns) => [Company])
   async companies(): Promise<Company[]> {
-    return getRepository(Company).find();
+    const { getGlobalDataSource } = await import("../index.js");
+    return getGlobalDataSource().getRepository(Company).find();
   }
 
   @FieldResolver()
   @Loader<string, Chair[]>(async (ids: readonly any[]) => {
-    const chairs = await getRepository(Chair).find({
-      where: { company: { id: In([...ids]) } },
-    });
+    const { getGlobalDataSource } = await import("../index.js");
+    const chairs = await getGlobalDataSource()
+      .getRepository(Chair)
+      .find({
+        where: { company: { id: In([...ids]) } },
+      });
     const chairsById = groupBy(chairs, "companyId");
     return ids.map((id) => chairsById[id] ?? []);
   })
