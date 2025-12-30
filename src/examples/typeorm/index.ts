@@ -21,13 +21,13 @@ import { readdir } from "fs/promises";
 let globalDataSource: DataSource;
 
 export async function connect(logging: boolean = false) {
-  const files = await readdir("./dist/examples/typeorm/entities");
-  const entities = files.filter((file) => file.endsWith(".js"));
+  //const files = await readdir("./dist/examples/typeorm/entities");
+  //const entities = files.filter((file) => file.endsWith(".js"));
 
   globalDataSource = new DataSource({
     type: "sqlite",
     database: ":memory:",
-    entities,
+    entities: ["dist/examples/typeorm/entities/**/*.js"],
     synchronize: true,
     logging,
   });

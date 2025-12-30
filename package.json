@@ -32,7 +32,7 @@
     "prepack": "yarn install && tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
     "dev:typeorm": "ts-node-dev -r tsconfig-paths/register examples/typeorm/index.ts",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.js --detectOpenHandles",
     "prepublishOnly": "npm run-script clean && npm run-script build"
   },
   "dependencies": {
