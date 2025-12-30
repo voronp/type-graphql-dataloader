@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { Entity, ManyToMany, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryColumn } from "typeorm";
 import { type Lazy } from "../types/Lazy.js";
 import { Base, Company, PersonalComputer } from "./index.js";
 import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
@@ -9,14 +9,18 @@ import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 export class ApplicationSoftware extends Base<ApplicationSoftware> {
   @Field()
   @PrimaryColumn()
+  id: number;
+
+  @Field()
+  @Column({ nullable: true })
   name: string;
 
   @Field()
-  @PrimaryColumn()
+  @Column({ nullable: true })
   majorVersion: number;
 
   @Field()
-  @PrimaryColumn()
+  @Column({ nullable: true })
   minorVersion: number;
 
   @Field((type) => [PersonalComputer])
