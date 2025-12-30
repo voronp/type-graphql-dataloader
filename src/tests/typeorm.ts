@@ -1,9 +1,10 @@
+process.env.NODE_ENV = "test";
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 
 import { gql, request } from "graphql-request";
-import { ObjectLiteral, DataSource } from "typeorm";
-import { connect, listen } from "../examples/typeorm/index.js";
+import { ObjectLiteral, DataSource, getConnectionManager } from "typeorm";
+import { connect, listen, seed } from "../examples/typeorm/index.js";
 import { Company } from "../examples/typeorm/entities/Company.js";
 import { ApplicationSoftware } from "../examples/typeorm/entities/ApplicationSoftware.js";
 import {
@@ -20,93 +21,14 @@ let endpoint: string;
 let dataSource: DataSource;
 
 before(async () => {
-  dataSource = await connect();
+  dataSource = await connect(false);
   await seed();
+
   const { port, close: _close } = await listen(0, typeormResolvers);
+  console.log("Server started on ephemeral port", port);
   close = _close;
   endpoint = `http://localhost:${port}/graphql`;
 });
-
-const seed = async () => {
-  const [company1, company2, company3] = await Promise.all(
-    [{ name: "company1" }, { name: "company2" }, { name: "company3" }].map(
-      (v) => dataSource.getRepository(Company).save(new Company(v))
-    )
-  );
-
-  const [desk1, desk2, desk3, desk4] = await Promise.all(
-    [
-      { name: "desk1", company: company1 },
-      { name: "desk2", company: company1 },
-      { name: "desk3", company: company1 },
-      { name: "desk4", company: company2 },
-    ].map((v) => dataSource.getRepository(Desk).save(new Desk(v)))
-  );
-
-  const [chair1, chair2] = await Promise.all(
-    [
-      { name: "chair1", company: company1, desk: desk1 },
-      { name: "chair2", company: company2 },
-    ].map((v) => dataSource.getRepository(Chair).save(new Chair(v)))
-  );
-
-  const [cert1, cert2, cert3] = await Promise.all(
-    [{ name: "cert1" }, { name: "cert2" }, { name: "cert3" }].map((v) =>
-      dataSource.getRepository(Cert).save(new Cert(v))
-    )
-  );
-
-  const [employee1, employee2, employee3] = await Promise.all(
-    [
-      {
-        name: "employee1",
-        company: company1,
-        desk: desk1,
-        certs: [cert1, cert2],
-      },
-      { name: "employee2", company: company1, desk: desk2, certs: [cert1] },
-      { name: "employee3", company: company1, certs: [] },
-    ].map((v) => dataSource.getRepository(Employee).save(new Employee(v)))
-  );
-
-  const [app1, app2, app3] = await Promise.all(
-    [
-      { name: "app1", majorVersion: 1, minorVersion: 0, publishedBy: company1 },
-      { name: "app2", majorVersion: 2, minorVersion: 0, publishedBy: company1 },
-      { name: "app3", majorVersion: 3, minorVersion: 1, publishedBy: company3 },
-    ].map((v) =>
-      dataSource
-        .getRepository(ApplicationSoftware)
-        .save(new ApplicationSoftware(v))
-    )
-  );
-
-  const [pc1, pc2, pc3, pc4] = await Promise.all(
-    [
-      {
-        name: "pc1",
-        propertyOf: company1,
-        placedAt: desk1,
-        installedApps: [app1],
-      },
-      {
-        name: "pc2",
-        propertyOf: company1,
-        placedAt: desk2,
-        installedApps: [],
-      },
-      { name: "pc3", propertyOf: company1, installedApps: [app1, app2] },
-      {
-        name: "pc4",
-        propertyOf: company2,
-        placedAt: desk4,
-        installedApps: [app2, app3],
-      },
-    ].map((v) =>
-      dataSource.getRepository(PersonalComputer).save(new PersonalComputer(v))
-    )
-  );
-};
 
 after(async () => {
   await close?.();
@@ -150,9 +72,10 @@ const verify = async <Entity extends ObjectLiteral>(
     if (!Array.isArray(entityOrEntities)) {
       throw Error("entityOrEntities type mismatch");
     }
-    const entities = entityOrEntities;
 
+    const entities = entityOrEntities;
     const objects = objectOrObjects;
+
     assert.strictEqual(objects.length, entities.length);
     if (objects.length === 0) {
       return;
