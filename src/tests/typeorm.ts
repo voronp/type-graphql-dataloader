@@ -1,4 +1,5 @@
-import * as jest from "@jest/globals";
+import { test, before, after } from "node:test";
+import assert from "node:assert/strict";
 
 import { gql, request } from "graphql-request";
 import { ObjectLiteral, DataSource } from "typeorm";
@@ -18,7 +19,7 @@ let close: () => Promise<void>;
 let endpoint: string;
 let dataSource: DataSource;
 
-jest.beforeAll(async () => {
+before(async () => {
   dataSource = await connect();
   await seed();
   const { port, close: _close } = await listen(0, typeormResolvers);
@@ -107,7 +108,7 @@ const seed = async () => {
   );
 };
 
-jest.afterAll(async () => {
+after(async () => {
   await close?.();
   await dataSource?.destroy();
 });
@@ -152,7 +153,7 @@ const verify = async <Entity extends ObjectLiteral>(
     const entities = entityOrEntities;
 
     const objects = objectOrObjects;
-    expect(objects.length).toEqual(entities.length);
+    assert.strictEqual(objects.length, entities.length);
     if (objects.length === 0) {
       return;
     }
@@ -173,7 +174,7 @@ const verify = async <Entity extends ObjectLiteral>(
     }
     const obj = objectOrObjects;
     const entity = entityOrEntities;
-    expect(obj.name).toEqual(entity.name);
+    assert.strictEqual(obj.name, entity.name);
 
     await Promise.all(
       Object.keys(obj).map(async (k) => {
@@ -193,7 +194,7 @@ const verify = async <Entity extends ObjectLiteral>(
         } else {
           // ToOne field (null)
           if (nextObj == null) {
-            expect(await (await getSelfEntity())[k]).toBeNull();
+            assert.strictEqual(await (await getSelfEntity())[k], null);
             return;
           }
           // Column field
