@@ -1,14 +1,14 @@
 {
   "name": "type-graphql-dataloader",
   "description": "A utility to use DataLoader with TypeGraphQL without fuss",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": {
     "name": "Dillon Sadofsky",
-    "url": "https://github.com/DillonSadofsky"
+    "url": "https://github.com/ISoft-Data-Systems"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DillonSadofsky/type-graphql-dataloader.git"
+    "url": "https://github.com/ISoft-Data-Systems/type-graphql-dataloader.git"
   },
   "keywords": [
     "typescript",
@@ -18,7 +18,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DillonSadofsky/type-graphql-dataloader/issues"
+    "url": "https://github.com/ISoft-Data-Systems/type-graphql-dataloader/issues"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -57,10 +57,10 @@
     "rimraf": "^6.1.2",
     "sqlite3": "^5.1.7",
     "ts-node-dev": "^2.0.0",
-    "tsconfig-paths": "^3.15.0",
+    "tsconfig-paths": "^4.2.0",
     "type-graphql": "^2.0.0-rc.2",
     "typescript": "^5.9.3",
-    "uuid": "^11.1.0"
+    "uuid": "^13.0.0"
   },
   "peerDependencies": {
     "typeorm": ">=0.3.17"
