@@ -7,7 +7,7 @@ TypeGraphQL-DataLoader is an utility to use DataLoader with TypeGraphQL without 
 Because the upstream package is now abandon-ware, the package can be pulled directly from github using the following npm command:
 
 ```
-npm install DillonSadofsky/type-graphql-dataloader
+npm install @isoftdata/type-graphql-dataloader
 ```
 
 This will create an installation from github instead of from the node package manager.
