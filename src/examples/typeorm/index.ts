@@ -4,9 +4,8 @@ import bodyParser from "body-parser";
 import express from "express";
 import http from "http";
 import { AddressInfo } from "net";
-import path from "path";
 import { buildSchema, NonEmptyArray } from "type-graphql";
-import { createConnection, getConnection, getRepository } from "typeorm";
+import { DataSource } from "typeorm";
 import { promisify } from "util";
 import { ApplicationSoftware } from "./entities/ApplicationSoftware.js";
 import { Cert } from "./entities/Cert.js";
@@ -17,24 +16,30 @@ import { Employee } from "./entities/Employee.js";
 import { PersonalComputer } from "./entities/PersonalComputer.js";
 import typeormResolvers from "./resolvers/index.js";
 import { ApolloServerLoaderPlugin } from "../../plugins/apollo-server/ApolloServerLoaderPlugin.js";
-import { fileURLToPath } from "url";
+import { readdir } from "fs/promises";
 
-export function connect(logging: boolean = false) {
-  return createConnection({
+let globalDataSource: DataSource;
+
+export async function connect(logging: boolean = false) {
+  const files = await readdir("./dist/examples/typeorm/entities");
+  const entities = files.filter((file) => file.endsWith(".js"));
+
+  globalDataSource = new DataSource({
     type: "sqlite",
     database: ":memory:",
-    entities: [
-      path.resolve(fileURLToPath(import.meta.url), "entities", "*.{js,ts}"),
-    ],
+    entities,
     synchronize: true,
     logging,
   });
+
+  await globalDataSource.initialize();
+  return globalDataSource;
 }
 
 export async function seed() {
   const [company1, company2, company3] = await Promise.all(
     [{ name: "company1" }, { name: "company2" }, { name: "company3" }].map(
-      (v) => getRepository(Company).save(new Company(v))
+      (v) => globalDataSource.getRepository(Company).save(new Company(v))
     )
   );
 
@@ -44,19 +49,19 @@ export async function seed() {
       { name: "desk2", company: company1 },
       { name: "desk3", company: company1 },
       { name: "desk4", company: company2 },
-    ].map((v) => getRepository(Desk).save(new Desk(v)))
+    ].map((v) => globalDataSource.getRepository(Desk).save(new Desk(v)))
   );
 
   const [chair1, chair2] = await Promise.all(
     [
       { name: "chair1", company: company1, desk: desk1 },
       { name: "chair2", company: company2 },
-    ].map((v) => getRepository(Chair).save(new Chair(v)))
+    ].map((v) => globalDataSource.getRepository(Chair).save(new Chair(v)))
   );
 
   const [cert1, cert2, cert3] = await Promise.all(
     [{ name: "cert1" }, { name: "cert2" }, { name: "cert3" }].map((v) =>
-      getRepository(Cert).save(new Cert(v))
+      globalDataSource.getRepository(Cert).save(new Cert(v))
     )
   );
 
@@ -70,7 +75,7 @@ export async function seed() {
       },
       { name: "employee2", company: company1, desk: desk2, certs: [cert1] },
       { name: "employee3", company: company1, certs: [] },
-    ].map((v) => getRepository(Employee).save(new Employee(v)))
+    ].map((v) => globalDataSource.getRepository(Employee).save(new Employee(v)))
   );
 
   const [app1, app2, app3] = await Promise.all(
@@ -79,7 +84,9 @@ export async function seed() {
       { name: "app2", majorVersion: 2, minorVersion: 0, publishedBy: company1 },
       { name: "app3", majorVersion: 3, minorVersion: 1, publishedBy: company3 },
     ].map((v) =>
-      getRepository(ApplicationSoftware).save(new ApplicationSoftware(v))
+      globalDataSource
+        .getRepository(ApplicationSoftware)
+        .save(new ApplicationSoftware(v))
     )
   );
 
@@ -104,7 +111,11 @@ export async function seed() {
         placedAt: desk4,
         installedApps: [app2, app3],
       },
-    ].map((v) => getRepository(PersonalComputer).save(new PersonalComputer(v)))
+    ].map((v) =>
+      globalDataSource
+        .getRepository(PersonalComputer)
+        .save(new PersonalComputer(v))
+    )
   );
 }
 
@@ -129,7 +140,7 @@ export async function listen(
     schema,
     plugins: [
       ApolloServerLoaderPlugin({
-        typeormGetConnection: getConnection,
+        typeormGetConnection: () => globalDataSource,
       }),
     ],
   });

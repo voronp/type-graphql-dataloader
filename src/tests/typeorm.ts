@@ -18,20 +18,20 @@ let close: () => Promise<void>;
 let endpoint: string;
 let dataSource: DataSource;
 
+jest.beforeAll(async () => {
+  dataSource = await connect();
+  await seed();
+  const { port, close: _close } = await listen(0, typeormResolvers);
+  close = _close;
+  endpoint = `http://localhost:${port}/graphql`;
+});
+
 const seed = async () => {
   const [company1, company2, company3] = await Promise.all(
     [{ name: "company1" }, { name: "company2" }, { name: "company3" }].map(
       (v) => dataSource.getRepository(Company).save(new Company(v))
     )
   );
-
-  jest.beforeAll(async () => {
-    dataSource = await connect();
-    await seed();
-    const { port, close: _close } = await listen(0, typeormResolvers);
-    close = _close;
-    endpoint = `http://localhost:${port}/graphql`;
-  });
 
   const [desk1, desk2, desk3, desk4] = await Promise.all(
     [
