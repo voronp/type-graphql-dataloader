@@ -8,12 +8,10 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  type Relation,
 } from "typeorm";
 import type { Lazy } from "../types/Lazy.js";
-import { Base } from "./Base.js";
-import { Company } from "./Company.js";
-import { Desk } from "./Desk.js";
-import { ApplicationSoftware } from "./ApplicationSoftware.js";
+import { Base, Company, Desk, ApplicationSoftware } from "./index.js";
 import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()

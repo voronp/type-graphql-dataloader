@@ -17,12 +17,15 @@ import { Employee } from "./entities/Employee.js";
 import { PersonalComputer } from "./entities/PersonalComputer.js";
 import typeormResolvers from "./resolvers/index.js";
 import { ApolloServerLoaderPlugin } from "../../plugins/apollo-server/ApolloServerLoaderPlugin.js";
+import { fileURLToPath } from "url";
 
 export function connect(logging: boolean = false) {
   return createConnection({
     type: "sqlite",
     database: ":memory:",
-    entities: [path.resolve(__dirname, "entities", "*.{js,ts}")],
+    entities: [
+      path.resolve(fileURLToPath(import.meta.url), "entities", "*.{js,ts}"),
+    ],
     synchronize: true,
     logging,
   });
@@ -142,11 +145,9 @@ export async function listen(
   };
 }
 
-if (require.main === module) {
-  (async () => {
-    await connect();
-    await seed();
-    const { port } = await listen(3000, typeormResolvers);
-    console.log(`Listening on port ${port}`);
-  })();
-}
+(async () => {
+  await connect();
+  await seed();
+  const { port } = await listen(3000, typeormResolvers);
+  console.log(`Listening on port ${port}`);
+})();

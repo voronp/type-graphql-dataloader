@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "build watch": "tsc -w -p tsconfig.build.json",
+    "build watch": "tsc -w -p tsconfig.json",
     "prepack": "yarn install && tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
     "dev:typeorm": "ts-node-dev -r tsconfig-paths/register examples/typeorm/index.ts",

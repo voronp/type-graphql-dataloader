@@ -8,11 +8,7 @@ import {
   RelationId,
 } from "typeorm";
 import type { Lazy } from "../types/Lazy.js";
-import { Base } from "./Base.js";
-import { Chair } from "./Chair.js";
-import { Company } from "./Company.js";
-import { Employee } from "./Employee.js";
-import { PersonalComputer } from "./PersonalComputer.js";
+import { Base, Chair, Company, Employee, PersonalComputer } from "./index.js";
 import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()

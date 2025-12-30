@@ -8,11 +8,7 @@ import {
 } from "typeorm";
 import type { Lazy } from "../types/Lazy.js";
 import { ApplicationSoftware } from "./ApplicationSoftware.js";
-import { Base } from "./Base.js";
-import { Chair } from "./Chair.js";
-import { Desk } from "./Desk.js";
-import { Employee } from "./Employee.js";
-import { PersonalComputer } from "./PersonalComputer.js";
+import { Base, Chair, Desk, Employee, PersonalComputer } from "./index.js";
 import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()

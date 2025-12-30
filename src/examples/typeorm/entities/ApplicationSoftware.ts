@@ -1,9 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
 import { Entity, ManyToMany, ManyToOne, PrimaryColumn } from "typeorm";
 import { type Lazy } from "../types/Lazy.js";
-import { Base } from "./Base.js";
-import { Company } from "./Company.js";
-import { PersonalComputer } from "./PersonalComputer.js";
+import { Base, Company, PersonalComputer } from "./index.js";
 import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()

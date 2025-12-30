@@ -5,3 +5,4 @@ interface ApolloServerLoaderPluginOption {
 }
 export declare const ApolloServerLoaderPlugin: <TContext extends BaseContext = BaseContext>(option?: ApolloServerLoaderPluginOption) => ApolloServerPlugin<TContext>;
 export {};
+//# sourceMappingURL=ApolloServerLoaderPlugin.d.ts.map

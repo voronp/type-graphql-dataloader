@@ -7,3 +7,4 @@ export declare function TypeormLoader(): PropertyDecorator;
 export declare function TypeormLoader(keyFunc: KeyFunc, option?: TypeormLoaderOption): PropertyDecorator;
 export declare function TypeormLoader<V>(typeFunc: (type?: void) => ObjectType<V>, keyFunc: KeyFunc, option?: TypeormLoaderOption): PropertyDecorator;
 export {};
+//# sourceMappingURL=TypeormLoader.d.ts.map

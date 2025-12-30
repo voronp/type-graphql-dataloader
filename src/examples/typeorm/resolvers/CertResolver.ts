@@ -1,6 +1,6 @@
 import { Query, Resolver } from "type-graphql";
 import { getRepository } from "typeorm";
-import { Cert } from "../entities/Cert.js";
+import { Cert } from "../entities/index.js";
 
 @Resolver((of) => Cert)
 export default class CertResolver {

@@ -11,10 +11,7 @@ import {
   RelationId,
 } from "typeorm";
 import type { Lazy } from "../types/Lazy.js";
-import { Base } from "./Base.js";
-import { Cert } from "./Cert.js";
-import { Company } from "./Company.js";
-import { Desk } from "./Desk.js";
+import { Base, Cert, Company, Desk } from "./index.js";
 import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()

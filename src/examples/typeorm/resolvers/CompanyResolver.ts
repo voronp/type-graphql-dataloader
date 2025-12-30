@@ -2,8 +2,7 @@ import DataLoader from "dataloader";
 import { groupBy } from "lodash-es";
 import { FieldResolver, Query, Resolver, Root } from "type-graphql";
 import { getRepository, In } from "typeorm";
-import { Chair } from "../entities/Chair.js";
-import { Company } from "../entities/Company.js";
+import { Chair, Company } from "../entities/index.js";
 import { Loader } from "../../../decorators/Loader.js";
 
 @Resolver((of) => Company)

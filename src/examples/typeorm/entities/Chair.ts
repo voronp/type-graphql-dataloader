@@ -9,9 +9,7 @@ import {
   RelationId,
 } from "typeorm";
 import { type Lazy } from "../types/Lazy.js";
-import { Base } from "./Base.js";
-import { Company } from "./Company.js";
-import { Desk } from "./Desk.js";
+import { Base, Company, Desk } from "./index.js";
 import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()
