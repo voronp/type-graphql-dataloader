@@ -2,6 +2,18 @@
 
 TypeGraphQL-DataLoader is an utility to use DataLoader with TypeGraphQL without fuss.
 
+## Why does this fork exist?
+
+The original library seems to be abandon-ware these days, but it is a very useful glue between `type-graphql`, `typeorm`, and `@apollo/server`.  However, the version of the original library doesn't support modern versions of apollo/graphql/etc.  So this fork modernizes all dependencies.
+
+### Breaking changes
+
+* Switched to ESM
+* Compatible with graphql 16
+* Compatible with apollo 5
+* Compatible with express 4 or 5
+* Compatible with type-graphql 2.x
+
 ## Install
 
 Because the upstream package is now abandon-ware, the package can be pulled directly from github using the following npm command:
@@ -14,9 +26,9 @@ This will create an installation from github instead of from the node package ma
 
 The latest build is tested with the following packages:
 
-- type-graphql 2
-- @apollo/server 5
-- (optional) typeorm 0.3
+* type-graphql 2
+* @apollo/server 5
+* (optional) typeorm 0.3
 
 ## Getting Started
 
@@ -24,15 +36,16 @@ Apollo Server is the first-class supported server. If your application uses Apol
 
 ```ts
 import { ApolloServerLoaderPlugin } from "type-graphql-dataloader";
-import { getConnection } from "typeorm";
+import { DataSource } from "typeorm";
 
-...
+// Instantiate modern typeorm datasource, connect it to the database
+const dataSource = new DataSource({/* Your database connection details here */})
 
 const apollo = new ApolloServer({
   schema,
   plugins: [
     ApolloServerLoaderPlugin({
-      typeormGetConnection: getConnection,  // for use with TypeORM
+      typeormGetConnection: () => dataSource),
     }),
   ],
 });
