@@ -11,4 +11,3 @@ export function TypeormLoader(typeFuncOrKeyFunc, keyFuncOrOption, option) {
     };
     return ExplicitLoaderImpl(...getArgs());
 }
-//# sourceMappingURL=TypeormLoader.js.map

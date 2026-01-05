@@ -23,4 +23,3 @@ export const ApolloServerLoaderPlugin = function (option) {
         }),
     };
 };
-//# sourceMappingURL=ApolloServerLoaderPlugin.js.map

@@ -15,4 +15,3 @@ export function Loader(batchLoadFn, options) {
         })(target, propertyKey);
     };
 }
-//# sourceMappingURL=Loader.js.map
