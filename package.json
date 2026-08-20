@@ -1,7 +1,7 @@
 {
   "name": "type-graphql-dataloader",
   "description": "A utility to use DataLoader with TypeGraphQL without fuss",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "author": {
     "name": "Dillon Sadofsky",
     "url": "https://github.com/ISoft-Data-Systems"
