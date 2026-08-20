@@ -1,4 +1,3 @@
-import { TypeormLoader } from "#/index";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
@@ -7,16 +6,16 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from "typeorm";
-import { Lazy } from "../types/Lazy";
-import { Base } from "./Base";
-import { Employee } from "./Employee";
+import { type Lazy } from "../types/Lazy.js";
+import { Base, Employee } from "./index.js";
+import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()
 @Entity()
 export class Cert extends Base<Cert> {
   @Field((type) => ID)
   @PrimaryGeneratedColumn()
-  cid: number;
+  id: number;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -24,10 +23,6 @@ export class Cert extends Base<Cert> {
 
   @Field((type) => [Employee])
   @ManyToMany((type) => Employee, (employee) => employee.certs, { lazy: true })
-  @TypeormLoader((cert: Cert) => cert.employeeIds)
+  @TypeormLoader()
   employees: Lazy<Employee[]>;
-
-  @Field((type) => [String])
-  @RelationId((cert: Cert) => cert.employees)
-  employeeIds: string[];
 }

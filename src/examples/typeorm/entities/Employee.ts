@@ -1,4 +1,3 @@
-import { TypeormLoader } from "#/index";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
@@ -11,50 +10,47 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from "typeorm";
-import { Lazy } from "../types/Lazy";
-import { Base } from "./Base";
-import { Cert } from "./Cert";
-import { Company } from "./Company";
-import { Desk } from "./Desk";
+import type { Lazy } from "../types/Lazy.js";
+import { Base, Cert, Company, Desk } from "./index.js";
+import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()
 @Entity()
 export class Employee extends Base<Employee> {
   @Field((type) => ID)
   @PrimaryGeneratedColumn("uuid")
-  eid: string;
+  id: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
   name?: string;
 
-  @Field((type) => Company)
+  @Field((type) => Company, { nullable: true })
   @ManyToOne((type) => Company, (company) => company.employees, { lazy: true })
   @TypeormLoader((type) => Company, (employee: Employee) => employee.companyId)
-  company: Lazy<Company>;
+  @JoinColumn()
+  company?: Lazy<Company>;
 
-  @RelationId((employee: Employee) => employee.company)
-  companyId?: string;
+  //@RelationId((employee: Employee) => employee.company)
+  @Column()
+  companyId: string;
 
   @Field((type) => Desk, { nullable: true })
   @OneToOne((type) => Desk, (desk) => desk.employee, {
     nullable: true,
     lazy: true,
   })
-  @JoinColumn()
   @TypeormLoader((type) => Desk, (employee: Employee) => employee.deskId)
+  @JoinColumn()
   desk: Lazy<Desk | null>;
 
-  @RelationId((employee: Employee) => employee.desk)
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   deskId?: number;
 
   @Field((type) => [Cert])
   @ManyToMany((type) => Cert, (cert) => cert.employees, { lazy: true })
   @JoinTable()
-  @TypeormLoader((type) => Cert, (employee: Employee) => employee.certIds)
+  @TypeormLoader()
   certs: Lazy<Cert[]>;
-
-  @Field((type) => [Number])
-  @RelationId((employee: Employee) => employee.certs)
-  certIds: number[];
 }

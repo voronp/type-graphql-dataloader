@@ -1,8 +1,7 @@
-module.exports = {
-  preset: "ts-jest",
+/** @type {import("jest").Config} **/
+export default {
+  verbose: true,
   testEnvironment: "node",
-  testRegex: "/tests/.*\\.ts$",
-  moduleNameMapper: {
-    "#/(.*)$": "<rootDir>/src/$1"
-  }
+  testRegex: "./dist/tests/typeorm.js",
+  transform: {},
 };

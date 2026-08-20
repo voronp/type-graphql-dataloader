@@ -7,13 +7,15 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["ESNext"],
-    "target": "ES2020",
-    "module": "CommonJS",
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "baseUrl": "./src/",
-    "paths": { "#/*": ["*"] }
+    "isolatedModules": true,
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
-  "include": ["./src", "./examples", "./tests"]
+  "include": ["./src"]
 }

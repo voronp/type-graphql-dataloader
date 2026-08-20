@@ -1,4 +1,3 @@
-import { TypeormLoader } from "#/index";
 import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
@@ -8,12 +7,9 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from "typeorm";
-import { Lazy } from "../types/Lazy";
-import { Base } from "./Base";
-import { Chair } from "./Chair";
-import { Company } from "./Company";
-import { Employee } from "./Employee";
-import { PersonalComputer } from "./PersonalComputer";
+import type { Lazy } from "../types/Lazy.js";
+import { Base, Chair, Company, Employee, PersonalComputer } from "./index.js";
+import { TypeormLoader } from "../../../decorators/typeorm/TypeormLoader.js";
 
 @ObjectType()
 @Entity()
@@ -26,7 +22,7 @@ export class Desk extends Base<Desk> {
   @Column({ nullable: true })
   name?: string;
 
-  @Field((type) => Company)
+  @Field((type) => Company, { nullable: true })
   @ManyToOne((type) => Company, (company) => company.desks, { lazy: true })
   company: Lazy<Company>;
 

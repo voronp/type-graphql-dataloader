@@ -1,12 +1,14 @@
-import type { TgdContext } from "#/types/TgdContext";
 import DataLoader from "dataloader";
 import { UseMiddleware } from "type-graphql";
-import Container from "typedi";
+import { Container } from "typedi";
 import type { DataSource, ObjectLiteral } from "typeorm";
-import type { ColumnMetadata } from "typeorm/metadata/ColumnMetadata";
-import type { RelationMetadata } from "typeorm/metadata/RelationMetadata";
+import type { ColumnMetadata } from "typeorm/metadata/ColumnMetadata.js";
+import type { RelationMetadata } from "typeorm/metadata/RelationMetadata.js";
+import { TgdContext } from "../../types/TgdContext.js";
 
-export function ImplicitLoaderImpl<V extends ObjectLiteral>(): PropertyDecorator {
+export function ImplicitLoaderImpl<
+  V extends ObjectLiteral
+>(): PropertyDecorator {
   return (target: Object, propertyKey: string | symbol) => {
     UseMiddleware(async ({ root, context }, next) => {
       const tgdContext = context._tgdContext as TgdContext;
@@ -72,7 +74,10 @@ async function handler<V>(
   return await dataloader.load(JSON.stringify(pk));
 }
 
-class ToOneOwnerDataloader<V extends ObjectLiteral> extends DataLoader<string, V | null> {
+class ToOneOwnerDataloader<V extends ObjectLiteral> extends DataLoader<
+  string,
+  V | null
+> {
   constructor(relation: RelationMetadata, connection: DataSource) {
     super(async (pks) => {
       const relationName = relation.inverseRelation!.propertyName;
@@ -96,7 +101,10 @@ class ToOneOwnerDataloader<V extends ObjectLiteral> extends DataLoader<string, V
   }
 }
 
-class ToOneNotOwnerDataloader<V extends ObjectLiteral> extends DataLoader<string, V | null> {
+class ToOneNotOwnerDataloader<V extends ObjectLiteral> extends DataLoader<
+  string,
+  V | null
+> {
   constructor(relation: RelationMetadata, connection: DataSource) {
     super(async (pks) => {
       const inverseRelation = relation.inverseRelation!;
@@ -123,7 +131,10 @@ class ToOneNotOwnerDataloader<V extends ObjectLiteral> extends DataLoader<string
   }
 }
 
-class OneToManyDataloader<V extends ObjectLiteral> extends DataLoader<string, V[]> {
+class OneToManyDataloader<V extends ObjectLiteral> extends DataLoader<
+  string,
+  V[]
+> {
   constructor(relation: RelationMetadata, connection: DataSource) {
     super(async (pks) => {
       const inverseRelation = relation.inverseRelation!;
@@ -149,7 +160,10 @@ class OneToManyDataloader<V extends ObjectLiteral> extends DataLoader<string, V[
   }
 }
 
-class ManyToManyDataloader<V  extends ObjectLiteral> extends DataLoader<string, V[]> {
+class ManyToManyDataloader<V extends ObjectLiteral> extends DataLoader<
+  string,
+  V[]
+> {
   constructor(relation: RelationMetadata, connection: DataSource) {
     super(async (pks) => {
       const inversePropName = relation.inverseRelation!.propertyName;

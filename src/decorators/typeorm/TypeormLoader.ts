@@ -1,6 +1,6 @@
 import type { ObjectLiteral, ObjectType } from "typeorm";
-import { ExplicitLoaderImpl } from "./ExplicitLoaderImpl";
-import { ImplicitLoaderImpl } from "./ImplicitLoaderImpl";
+import { ExplicitLoaderImpl } from "./ExplicitLoaderImpl.js";
+import { ImplicitLoaderImpl } from "./ImplicitLoaderImpl.js";
 
 type KeyFunc = (root: any) => any | any[] | undefined;
 
