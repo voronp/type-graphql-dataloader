@@ -31,13 +31,13 @@
     "prepublishOnly": "npm run-script clean && npm run-script build"
   },
   "dependencies": {
+    "@lukeed/uuid": "^2.0.1",
     "@types/validator": "^13.7.17",
     "dataloader": "^2.1.0",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.8.0",
-    "typeorm": "0.3.17",
-    "uuid": "^9.0.0"
+    "typeorm": "0.3.17"
   },
   "devDependencies": {
     "@apollo/server": "^4.4.1",
@@ -45,7 +45,6 @@
     "@types/jest": "^26.0.14",
     "@types/lodash": "^4.14.162",
     "@types/node": "^16.11.6",
-    "@types/uuid": "^9.0.0",
     "class-validator": "^0.13.1",
     "express": "^4.17.1",
     "graphql": "^16.6.0",
