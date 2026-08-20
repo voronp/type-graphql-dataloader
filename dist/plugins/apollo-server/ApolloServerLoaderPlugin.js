@@ -1,5 +1,5 @@
 import { Container } from "typedi";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "@lukeed/uuid";
 function getContext(requestContext) {
     return requestContext?.contextValue
         ? requestContext.contextValue
