@@ -6,7 +6,7 @@ import type {
 } from "@apollo/server";
 import { Container } from "typedi";
 import type { DataSource } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "@lukeed/uuid";
 import { TgdContext } from "../../types/TgdContext.js";
 
 interface ApolloServerLoaderPluginOption {
