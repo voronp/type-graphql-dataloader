@@ -36,6 +36,7 @@
     "prepublishOnly": "npm run-script clean && npm run-script build"
   },
   "dependencies": {
+    "@lukeed/uuid": "^2.0.1",
     "dataloader": "^2.2.3",
     "lodash-es": "^4.17.22",
     "reflect-metadata": "^0.1.14",
@@ -59,8 +60,7 @@
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "type-graphql": "^2.0.0-rc.2",
-    "typescript": "^5.9.3",
-    "uuid": "^13.0.0"
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "typeorm": ">=0.3.17"
